@@ -8,7 +8,7 @@ module.exports = function (cacheSvr, keyGen) {
     return async function (ctx, next) {
         let key = keyGen(ctx);
 
-        let val = cacheSvr.get(key);
+        let val = await cacheSvr.get(key);
         if (val) {
             ctx.body = val;
             return true;
@@ -17,7 +17,7 @@ module.exports = function (cacheSvr, keyGen) {
         await next();
 
         if (ctx.status === 200) {
-            cacheSvr.set(key, ctx.body);
+            await cacheSvr.set(key, ctx.body);
         }
     };
 };

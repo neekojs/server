@@ -1,4 +1,4 @@
-class LocalCache {
+class LcCache {
     constructor() {
         this.localCached = {};
     }
@@ -20,4 +20,4 @@ class LocalCache {
     }
 }
 
-module.exports = LocalCache;
+module.exports = LcCache;

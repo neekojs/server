@@ -5,12 +5,15 @@ const Server = require('./server');
 class Yuumi extends Server {
     constructor(serverUrl) {
         super();
-        this.serverUrl = serverUrl;
+        this.serverUrl = serverUrl || '';
 
         const route = new Router();
         route.get('yuumi-push', '/yuumi/server/push', async ctx => {
-            this.cacheSvr.del('test');
-            ctx.body = 'ok.';
+            const { key } = ctx.query || {};
+            if (key && key.length < 16) {
+                await this.cacheSvr.del(key);
+                ctx.body = `{"code":0,"message":"ok","data":{key:"${key}"}}`;
+            }
         });
         route.get('yuumi-pull', '/yuumi/client/pull', async ctx => {
             // todo
@@ -21,20 +24,23 @@ class Yuumi extends Server {
         this.app.use(route.allowedMethods());
     }
 
-    async getServerConfig(appName) {
+    async getServerConfig(appName, config) {
         console.log('请求服务配置', appName);
+        if (typeof config === 'object') {
+            return config;
+        }
         const params = { appName };
-        const res = await request({ url: this.serverUrl, data: params });
+        const res = await request({ url: config || this.serverUrl, data: params });
         return res.data;
     }
 
-    async getVueResources(appName) {
+    async getVueResources(appName, serverConfig) {
         const self = this;
         const cacheSvr = self.getCacheSvr();
         let result = cacheSvr.get(appName);
         if (result) return result;
 
-        let config = await self.getServerConfig(appName);
+        let config = await self.getServerConfig(appName, serverConfig);
         if (!config || !config.template) {
             throw Error('请正确检查服务配置');
         }

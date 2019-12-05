@@ -1,5 +1,5 @@
-const YuumiCache = require('./Cache');
+const Cached = require('./cached');
 
 module.exports = {
-    YuumiCache
+    Cached
 };

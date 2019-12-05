@@ -1,27 +1,26 @@
 {
-  "name": "@neekojs/yuumi",
+  "name": "@neekojs/server",
   "version": "1.0.0",
-  "description": "@neekojs/yuumi server",
+  "description": "@neekojs/server",
   "main": "src/index.js",
   "scripts": {
     "release": "npm run compile && npm publish --access public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neekojs/yuumi.git"
+    "url": "git+https://github.com/neekojs/server.git"
   },
   "keywords": [
     "neeko",
     "neekojs",
-    "yuumi",
     "server"
   ],
   "author": "suibinc@qq.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neekojs/yuumi/issues"
+    "url": "https://github.com/neekojs/server/issues"
   },
-  "homepage": "https://github.com/neekojs/yuumi#readme",
+  "homepage": "https://github.com/neekojs/server#readme",
   "dependencies": {
     "@neekojs/utils": "1",
     "axios": "latest",
@@ -29,6 +28,7 @@
     "koa": "2",
     "koa-router": "7",
     "lru-cache": "5",
+    "memcached": "2",
     "vue": "2",
     "vue-router": "3",
     "vue-server-renderer": "2",

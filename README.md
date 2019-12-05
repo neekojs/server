@@ -1,1 +1,1 @@
-# @neekojs/yuumi server
+# @neekojs/server

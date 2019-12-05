@@ -1,5 +1,5 @@
 const Koa = require('koa');
-const LocalCache = require('./common/LocalCache');
+const LocalCache = require('./common/lc-cache');
 const { vueSSR } = require('./renderer/vue');
 
 class Server {
@@ -28,14 +28,14 @@ class Server {
         return this.cacheSvr;
     }
 
-    async getVueResources(appName) {
+    async getVueResources(appName, serverConfig) {
         throw Error('function[getVueResources] must be overwrite');
     }
 
     injectVueSSR() {
-        this.app.context.vueSSR = async ({ appName, context: _context }) => {
+        this.app.context.vueSSR = async ({ appName, context: _context, serverConfig }) => {
             const ctx = this;
-            const src = await this.getVueResources(appName);
+            const src = await this.getVueResources(appName, serverConfig);
             const context = Object.assign({ url: ctx.url }, ctx.state, _context);
             const options = {
                 appName,
