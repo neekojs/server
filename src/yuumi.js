@@ -8,6 +8,12 @@ class Yuumi extends Server {
         this.serverUrl = serverUrl || '';
 
         const route = new Router();
+        route.get('yuumi-purge', '/yuumi/purge', async ctx => {
+            if (this.cacheSvr.flush) {
+                this.cacheSvr.flush();
+                ctx.body = `{"code":0,"message":"flush"}`;
+            }
+        });
         route.get('yuumi-push', '/yuumi/server/push', async ctx => {
             const { key } = ctx.query || {};
             if (key && key.length < 16) {
@@ -42,7 +48,7 @@ class Yuumi extends Server {
 
         let config = await self.getServerConfig(appName, serverConfig);
         if (!config || !config.template) {
-            throw Error('请正确检查服务配置');
+            throw Error('请检查服务配置是否正确');
         }
         let assets = [{ url: config.template }, { url: config.manifest }, { url: config.bundle }];
         let resArr = await request(assets);

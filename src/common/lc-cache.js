@@ -15,6 +15,10 @@ class LcCache {
         delete this.localCached[key];
     }
 
+    flush() {
+        this.localCached = {};
+    }
+
     keys() {
         return Object.keys(this.localCached);
     }
